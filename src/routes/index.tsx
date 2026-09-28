@@ -104,9 +104,10 @@ const gallery = [
 
 function Index() {
   const featured = events[0];
+  if (!featured) return null;
   return <main className="overflow-clip bg-background text-foreground">
     <Navigation />
-    <section id="start" className="relative flex min-h-[min(850px,100svh)] flex-col justify-end overflow-hidden pt-28 pb-14 sm:min-h-[min(900px,92svh)] sm:pb-20">
+    <section id="start" className="relative flex min-h-[min(760px,calc(100svh-64px))] flex-col justify-end overflow-hidden pt-28 pb-14 sm:min-h-[min(900px,92svh)] sm:pb-20">
       <img src={heroImage} alt="Atmosphärische Clubnacht mit tanzendem Publikum (Konzeptbild)" width={1920} height={1280} fetchPriority="high" className="hero-image absolute inset-0 h-full w-full object-cover object-center" />
       <div className="hero-vignette absolute inset-0" />
       <div className="relative mx-auto w-full max-w-[1600px] px-5 sm:px-10 lg:px-16">
