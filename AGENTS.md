@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep homepage demo event content in `src/data/events.ts`, separate from presentation, so confirmed dates and ticket URLs can replace it without changing layout.
+- Keep this concept frontend-only and label unverified event and club details clearly, because it is not the official club site.

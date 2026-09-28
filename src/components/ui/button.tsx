@@ -10,6 +10,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+        club: "rounded-none bg-primary text-primary-foreground font-bold uppercase tracking-widest hover:bg-primary/85 active:scale-[0.98]",
+        clubOutline: "rounded-none border border-foreground/50 bg-transparent text-foreground font-bold uppercase tracking-widest hover:bg-foreground hover:text-background active:scale-[0.98]",
+        clubText: "rounded-none bg-transparent text-foreground font-bold uppercase tracking-widest hover:text-primary active:scale-[0.98]",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
           "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
@@ -19,6 +22,7 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-9 px-4 py-2",
+        club: "h-12 px-6 text-[11px] sm:h-13 sm:px-8",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",
