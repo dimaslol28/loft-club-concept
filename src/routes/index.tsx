@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type AnchorHTMLAttributes, type ReactNode } from "react";
 import { ArrowDown, ArrowRight, ArrowUpRight, Instagram, Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { events, type ClubEvent } from "@/data/events";
 import heroImage from "@/assets/loft-hero.jpg";
 import clubImage from "@/assets/club-crowd.jpg";
@@ -30,6 +31,10 @@ const navItems = [
   { label: "KONTAKT", href: "#kontakt" },
 ];
 
+function ClubLink({ children, className, variant = "club", ...props }: AnchorHTMLAttributes<HTMLAnchorElement> & { children: ReactNode; variant?: "club" | "clubOutline" }) {
+  return <a className={cn(buttonVariants({ variant, size: "club" }), className)} {...props}>{children}</a>;
+}
+
 function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -55,7 +60,7 @@ function Navigation() {
             {navItems.map(item => <a key={item.href} className="text-[11px] font-extrabold tracking-[.14em] text-foreground/75 transition-colors hover:text-primary" href={item.href}>{item.label}</a>)}
           </nav>
           <div className="flex items-center gap-3">
-            <Button asChild variant="club" size="club" className="hidden lg:inline-flex"><a href="#events">TICKETS <ArrowUpRight /></a></Button>
+            <ClubLink href="#events" className="hidden lg:inline-flex">TICKETS <ArrowUpRight className="size-4" /></ClubLink>
             <Button variant="clubText" size="icon" className="relative z-50 !size-11 lg:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Menü schliessen" : "Menü öffnen"} aria-expanded={menuOpen} aria-controls="mobilmenue">
               {menuOpen ? <X className="!size-7" /> : <Menu className="!size-7" />}
             </Button>
@@ -66,7 +71,7 @@ function Navigation() {
         <nav aria-label="Mobilnavigation" className="flex flex-col items-start gap-2">
           {navItems.map((item, i) => <a tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} key={item.href} href={item.href} className="flex w-full items-center justify-between border-b border-line py-3 font-display text-[clamp(3.6rem,12vw,6rem)] leading-none font-bold uppercase hover:text-primary">{item.label}<span className="font-sans text-xs text-muted-foreground">0{i + 1}</span></a>)}
         </nav>
-        <Button asChild variant="club" size="club" className="mt-10 w-fit" tabIndex={menuOpen ? 0 : -1}><a onClick={() => setMenuOpen(false)} href="#events">TICKETS <ArrowUpRight /></a></Button>
+        <ClubLink href="#events" className="mt-10 w-fit" tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)}>TICKETS <ArrowUpRight className="size-4" /></ClubLink>
       </div>
     </>
   );
@@ -78,7 +83,7 @@ function SectionHeading({ kicker, title, aside }: { kicker: string; title: strin
 
 function TicketButton({ event, compact = false }: { event: ClubEvent; compact?: boolean }) {
   return event.ticketUrl ? (
-    <Button asChild variant="club" size="club" className={compact ? "w-full justify-between" : "justify-between"}><a href={event.ticketUrl} target="_blank" rel="noopener noreferrer">TICKETS <ArrowUpRight /></a></Button>
+    <ClubLink href={event.ticketUrl} target="_blank" rel="noopener noreferrer" className={compact ? "w-full justify-between" : "justify-between"}>TICKETS <ArrowUpRight className="size-4" /></ClubLink>
   ) : (
     <Button disabled variant="club" size="club" className={compact ? "w-full justify-between" : "justify-between"} title="Ticketlink für dieses Beispiel-Event noch nicht verfügbar">TICKETS FOLGEN <ArrowUpRight /></Button>
   );
@@ -115,7 +120,7 @@ function Index() {
         <h1 className="club-title max-w-5xl text-[clamp(7.4rem,23vw,20rem)]">LOFT<span className="text-primary">.</span><br /><span className="text-[.58em]">THUN</span></h1>
         <div className="mt-6 flex flex-col gap-9 sm:mt-10 sm:flex-row sm:items-end sm:justify-between">
           <p className="max-w-sm font-display text-[clamp(1.8rem,3vw,2.8rem)] leading-[.98] font-semibold uppercase">MUSIK.<br />NÄCHTE.<br /><span className="text-primary">ERINNERUNGEN.</span></p>
-          <div className="flex flex-wrap gap-3"><Button asChild variant="club" size="club"><a href="#events">NÄCHSTE EVENTS <ArrowUpRight /></a></Button><Button asChild variant="clubOutline" size="club"><a href="#tickets">TICKETS <ArrowRight /></a></Button></div>
+          <div className="flex flex-wrap gap-3"><ClubLink href="#events">NÄCHSTE EVENTS <ArrowUpRight className="size-4" /></ClubLink><ClubLink variant="clubOutline" href="#tickets">TICKETS <ArrowRight className="size-4" /></ClubLink></div>
         </div>
       </div>
       <a href="#events" className="absolute right-5 bottom-6 hidden items-center gap-3 text-[10px] font-bold tracking-widest uppercase text-foreground/70 transition-colors hover:text-primary md:flex lg:right-16">MEHR ENTDECKEN <ArrowDown className="size-4" /></a>
@@ -136,11 +141,11 @@ function Index() {
 
     <section id="galerie" className="scroll-mt-20 px-5 py-20 sm:px-10 sm:py-32 lg:px-16"><div className="mx-auto max-w-[1480px]"><SectionHeading kicker="04 / MOMENTE" title="NÄCHTE IM LOFT" aside="KONZEPTBILDER" /><div className="grid gap-3 sm:h-[650px] sm:grid-cols-12 sm:grid-rows-2 sm:gap-4">{gallery.map((item, i) => <div key={item.alt} className={`gallery-photo group relative h-[330px] overflow-hidden bg-surface sm:h-auto ${item.className}`}><img src={item.image} alt={`${item.alt} (Konzeptbild)`} width={i === 1 ? 1536 : 1024} height={i === 1 ? 1024 : 1280} loading="lazy" className="h-full w-full object-cover" /><div className="photo-shade absolute inset-0" /><span className="absolute bottom-5 left-5 font-sans text-[10px] font-bold tracking-widest text-foreground/80">0{i + 1} / LOFT</span></div>)}</div></div></section>
 
-    <section className="border-y border-line bg-surface px-5 py-20 sm:px-10 sm:py-28 lg:px-16"><div className="mx-auto max-w-[1480px]"><div className="mb-10 flex flex-wrap items-end justify-between gap-6"><div><p className="eyebrow mb-5 text-primary">05 / SOCIAL</p><h2 className="section-title">FOLGE DER NACHT</h2><p className="mt-6 text-lg font-semibold text-muted-foreground">@loftclubthun</p></div><Button asChild variant="clubOutline" size="club"><a href="https://www.instagram.com/loftclubthun/" target="_blank" rel="noopener noreferrer"><Instagram /> AUF INSTAGRAM FOLGEN <ArrowUpRight /></a></Button></div><div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">{[galleryMoment, galleryLights, clubImage, heroImage].map((image, i) => <a key={image} href="https://www.instagram.com/loftclubthun/" target="_blank" rel="noopener noreferrer" aria-label={`Instagram öffnen – Bild ${i + 1}`} className="gallery-photo group relative aspect-square overflow-hidden bg-surface-raised"><img src={image} alt={`Clubatmosphäre ${i + 1} (Konzeptbild, kein Instagram-Beitrag)`} width={1024} height={1024} loading="lazy" className="h-full w-full object-cover" /><span className="absolute inset-0 flex items-center justify-center bg-background/0 opacity-0 transition-all group-hover:bg-background/35 group-hover:opacity-100"><Instagram className="size-8" /></span></a>)}</div><p className="mt-4 text-xs text-muted-foreground">Bildmotive sind Teil dieses Designkonzepts, keine echten Instagram-Beiträge.</p></div></section>
+    <section className="border-y border-line bg-surface px-5 py-20 sm:px-10 sm:py-28 lg:px-16"><div className="mx-auto max-w-[1480px]"><div className="mb-10 flex flex-wrap items-end justify-between gap-6"><div><p className="eyebrow mb-5 text-primary">05 / SOCIAL</p><h2 className="section-title">FOLGE DER NACHT</h2><p className="mt-6 text-lg font-semibold text-muted-foreground">@loftclubthun</p></div><ClubLink variant="clubOutline" href="https://www.instagram.com/loftclubthun/" target="_blank" rel="noopener noreferrer"><Instagram className="size-4" /> AUF INSTAGRAM FOLGEN <ArrowUpRight className="size-4" /></ClubLink></div><div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">{[galleryMoment, galleryLights, clubImage, heroImage].map((image, i) => <a key={image} href="https://www.instagram.com/loftclubthun/" target="_blank" rel="noopener noreferrer" aria-label={`Instagram öffnen – Bild ${i + 1}`} className="gallery-photo group relative aspect-square overflow-hidden bg-surface-raised"><img src={image} alt={`Clubatmosphäre ${i + 1} (Konzeptbild, kein Instagram-Beitrag)`} width={1024} height={1024} loading="lazy" className="h-full w-full object-cover" /><span className="absolute inset-0 flex items-center justify-center bg-background/0 opacity-0 transition-all group-hover:bg-background/35 group-hover:opacity-100"><Instagram className="size-8" /></span></a>)}</div><p className="mt-4 text-xs text-muted-foreground">Bildmotive sind Teil dieses Designkonzepts, keine echten Instagram-Beiträge.</p></div></section>
 
     <section id="info" className="scroll-mt-20 px-5 py-20 sm:px-10 sm:py-32 lg:px-16"><div className="mx-auto max-w-[1480px]"><SectionHeading kicker="06 / GUT ZU WISSEN" title="CLUB INFO" /><div className="grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:gap-24"><div><h3 className="font-display text-5xl font-bold uppercase sm:text-6xl">LOFT CLUB THUN<span className="text-primary">.</span></h3><address className="mt-8 text-lg leading-relaxed not-italic text-muted-foreground">Obere Hauptgasse 27<br />3600 Thun<br />Schweiz</address><a className="mt-8 inline-flex items-center gap-2 border-b border-primary pb-2 text-xs font-bold tracking-widest uppercase transition-colors hover:text-primary" href="https://www.google.com/maps/search/?api=1&query=Obere+Hauptgasse+27%2C+3600+Thun%2C+Switzerland" target="_blank" rel="noopener noreferrer">ADRESSE ANSEHEN <ArrowUpRight className="size-4" /></a></div><dl className="divide-y divide-line border-t border-line">{["ÖFFNUNGSZEITEN", "EINTRITT", "MINDESTALTER", "ANREISE", "GARDEROBE"].map(item => <div key={item} className="grid grid-cols-2 gap-4 py-5 sm:py-6"><dt className="eyebrow text-foreground">{item}</dt><dd className="text-sm text-muted-foreground">Angaben folgen</dd></div>)}</dl></div></div></section>
 
-    <section className="relative overflow-hidden border-t border-line bg-surface px-5 py-24 text-center sm:px-10 sm:py-36"><div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_100%,var(--accent),transparent_65%)] opacity-70" /><div className="relative mx-auto max-w-[1200px]"><p className="eyebrow mb-8 text-primary">DIE NACHT WARTET</p><h2 className="section-title text-[clamp(4.5rem,12vw,12rem)]">BEREIT FÜR<br />HEUTE NACHT<span className="text-primary">?</span></h2><Button asChild variant="club" size="club" className="mt-10"><a href="#events">EVENTS ENTDECKEN <ArrowUpRight /></a></Button></div></section>
+    <section className="relative overflow-hidden border-t border-line bg-surface px-5 py-24 text-center sm:px-10 sm:py-36"><div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_100%,var(--accent),transparent_65%)] opacity-70" /><div className="relative mx-auto max-w-[1200px]"><p className="eyebrow mb-8 text-primary">DIE NACHT WARTET</p><h2 className="section-title text-[clamp(4.5rem,12vw,12rem)]">BEREIT FÜR<br />HEUTE NACHT<span className="text-primary">?</span></h2><ClubLink href="#events" className="mt-10">EVENTS ENTDECKEN <ArrowUpRight className="size-4" /></ClubLink></div></section>
 
     <footer id="kontakt" className="scroll-mt-20 border-t border-line px-5 pt-16 pb-8 sm:px-10 lg:px-16"><div className="mx-auto max-w-[1480px]"><div className="grid gap-12 border-b border-line pb-16 lg:grid-cols-[1.4fr_1fr_1fr]"><div><a href="#start" className="font-display text-7xl leading-none font-extrabold">LOFT<span className="text-primary">.</span></a><p className="mt-4 text-sm text-muted-foreground">LOFT Club Thun<br />Obere Hauptgasse 27 · 3600 Thun</p></div><div><p className="eyebrow mb-6 text-primary">ENTDECKEN</p><nav aria-label="Footernavigation" className="flex flex-col items-start gap-3">{navItems.map(item => <a key={item.href} href={item.href} className="text-sm font-semibold transition-colors hover:text-primary">{item.label}</a>)}</nav></div><div><p className="eyebrow mb-6 text-primary">VERBINDEN</p><a className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:text-primary" href="https://www.instagram.com/loftclubthun/" target="_blank" rel="noopener noreferrer">INSTAGRAM <ArrowUpRight className="size-4" /></a><p className="mt-8 text-sm text-muted-foreground">Kontaktangaben folgen.</p></div></div><div className="flex flex-col gap-4 pt-7 text-[11px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between"><p>© 2026 LOFT CLUB THUN — UNABHÄNGIGES DESIGNKONZEPT. KEINE OFFIZIELLE WEBSITE.</p><div className="flex gap-6"><span>IMPRESSUM FOLGT</span><span>DATENSCHUTZ FOLGT</span></div></div></div></footer>
   </main>;
