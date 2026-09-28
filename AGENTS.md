@@ -9,5 +9,6 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
-- Keep homepage demo event content in `src/data/events.ts`, separate from presentation, so confirmed dates and ticket URLs can replace it without changing layout.
-- Keep this concept frontend-only and label unverified event and club details clearly, because it is not the official club site.
+- Keep confirmed event listings in `src/data/events.ts` and render both homepage and event pages from them, so updates have one source of truth.
+- Keep shared navigation, footer, and action styling in `src/components/club-shell.tsx` so event pages and homepage stay consistent.
+- Keep this concept frontend-only and distinguish concept imagery from official club photography, because this is not the official club site.
