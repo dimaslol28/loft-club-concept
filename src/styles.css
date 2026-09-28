@@ -166,9 +166,14 @@
 .event-poster:hover img, .gallery-photo:hover img { transform: scale(1.055); }
 .event-poster img, .gallery-photo img { transition: transform .7s cubic-bezier(.2,.7,.2,1); }
 .hero-image { animation: hero-breathe 18s ease-in-out infinite alternate; }
+.cta-glow { background: radial-gradient(ellipse at 50% 110%, var(--accent), transparent 67%); opacity: .7; pointer-events: none; }
+@media (max-width: 430px) {
+  .section-title { font-size: clamp(3.25rem, 16vw, 4.25rem); }
+}
 @keyframes hero-breathe { from { transform: scale(1); } to { transform: scale(1.055); } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hero-image { animation: none; }
   .event-poster img, .gallery-photo img { transition: none; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
