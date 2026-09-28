@@ -48,7 +48,7 @@ function Home() {
   if (!featured) return null;
   return <main className="overflow-clip bg-background text-foreground">
     <Navigation />
-    <section id="start" className="relative flex min-h-[min(780px,94svh)] flex-col justify-end overflow-hidden pt-28 pb-10 sm:min-h-[min(940px,94svh)] sm:pb-18">
+    <section id="start" className="relative flex min-h-[82svh] flex-col justify-end overflow-hidden pt-28 pb-10 sm:min-h-[min(940px,94svh)] sm:pb-18">
       <img src={heroImage} alt="Atmosphärische Clubnacht als unabhängiges Konzeptbild" fetchPriority="high" className="hero-image absolute inset-0 h-full w-full object-cover object-center" />
       <div className="hero-vignette absolute inset-0" />
       <div className="relative mx-auto w-full max-w-[1600px] px-5 sm:px-10 lg:px-16">
